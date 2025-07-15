@@ -1,0 +1,35 @@
+a{
+    color: rgb(54, 1, 57);
+    display: flex;
+    justify-content: center;
+    font-size: 120px;
+    text-decoration: none;
+
+}
+body{
+    background-color: rgb(237, 217, 255);
+}
+h1{
+    color: rgb(52, 28, 53);
+    display: flex;
+    justify-content: center;
+    font-size: 50px;
+    text-decoration: none;
+}
+p{
+    color: rgb(100, 1, 105);
+    display: flex;
+    justify-content: center;
+    font-size: 50px;
+    text-decoration: none;
+}
+.labell{
+    color: rgb(117, 49, 131);
+}
+input{
+    color: blueviolet;
+}
+.inpbtn{
+    border-radius: 2px;
+    background-color: rgb(237, 218, 255);
+}
