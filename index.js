@@ -1,6 +1,7 @@
 let express = require("express");
 let path = require("path");
 
+
 let app = express();
 const PORT = 3333;
 
@@ -8,24 +9,26 @@ const PORT = 3333;
 // Middleware для форм
 app.use(express.urlencoded({ extended: true }));
 
+app.use(express.json());
+
 app.use(express.static("public"));
 
-app.get('/', (req, res) =>{
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, "views", "index.html"));
-})
+});
 
-app.get('/form', (req, res) =>{
+app.get('/form', (req, res) => {
     res.sendFile(path.join(__dirname, "views", "form.html"));
 });
 
-app.get('/login', (req, res) =>{
+app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, "views", "login.html"));
 });
 
 app.post("/form", (req, res) => {
     let code = req.body.code || "";
     let correctCode = "12345"
-    if (code.length < 3){
+    if (code.length < 3) {
         let error = {
             error: "code must be longer than 3 symbols"
         };
@@ -33,23 +36,36 @@ app.post("/form", (req, res) => {
     };
     if (code === correctCode) {
         res.redirect("/treasure");
-    } else{
+    } else {
         res.send(`<div>wrong</div>
         <a href="/form">Here</a>`)
     };
 });
-
+app.post("/codeForm", (req, res) => {
+    const { code } = req.body;
+    const correctCode = '12345';
+    if (!code || code.length < 3) {
+        return res
+            .status(400)
+            .json({ error: 'Код має містити щонайменше 3 символи' });
+    }
+    if (code === correctCode) {
+        return res.json({ success: true, redirect: '/treasure' });
+    }
+    res.status(401).json({ error: 'Невірний код. Спробуй ще!' });
+});
 app.post("/login", (req, res) => {
-    const { login, password} = req.body;
-    
-    if (login === "admin" && password === "1234") {
-        res.send("congrats u logged in");
-    } else{
-        res.status(401).send("incorrect");
+    const { login, password } = req.body;
+    const correctLogin = 'admin';
+    const correctPassword = '12345';
+    if (login === correctLogin && password === correctPassword) {
+        res.json({ success: true, message: 'congrats u logged in' });
+    } else {
+        res.status(401).json({ success: false, message: "неправильний логін або пароль" });
     };
 });
 
-app.get('/crash', (req, res) =>{
+app.get('/crash', (req, res) => {
     throw new Error('smth went wrong');
 });
 
@@ -62,11 +78,11 @@ app.use((err, req, res, next) => {
     `);
 });
 
-app.get('/treasure', (req, res) =>{
+app.get('/treasure', (req, res) => {
     res.sendFile(path.join(__dirname, "views", "treasure.html"));
-}) 
+})
 
-app.use((req, res) =>{
+app.use((req, res) => {
     res.status(404).send(`
     <h1>Wrong path...</h1>
     <p>No treasure here</p>

@@ -19,10 +19,12 @@
 
 
     <h1>Enter the secret code to continue🔒</h1>
-    <form action="/form" method="POST">
+    <form id="codeForm" action="/form" method="POST">
         <label for="code" class="labell">Enter the code here:</label><br>
         <input type="text" name="code" id="treasure_code" required>
         <input type="submit" value="submit" class="inpbtn">
+        <p id="result"></p>
+    </form>
         <footer>
             <p>©️2025<br>made by a</p>
         </footer>

@@ -7,11 +7,14 @@
         <link rel="stylesheet" href="/style.css">
     </head>
     <body>
-        <form id="loginForm" action="/login" method="POST">
-            <input name="login" placeholder="Логін" />
-            <input name="password" type="password" placeholder="Пароль" />
-            <input name="email" type="email" placeholder="Почта" />
+        <!--action="/login" method="POST"-->
+        <form id="loginForm" >
+            <input id="login"  name="login" placeholder="Логін" /><br>
+            <input id="password" name="password" type="password" placeholder="Пароль" /><br>
+            <input name="email" type="email" placeholder="Почта" /><br>
             <button>Увійти</button>
+            <p id="msg"></p>
         </form>
+        <script src="/script.js"></script>
     </body>
 </html>
