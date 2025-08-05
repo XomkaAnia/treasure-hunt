@@ -1,6 +1,6 @@
 let express = require("express");
 let path = require("path");
-
+const authRoutes = require("./routes/auth");
 
 let app = express();
 const PORT = 3333;
@@ -13,6 +13,8 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
+app.use("/", authRoutes);
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, "views", "index.html"));
 });
@@ -21,9 +23,7 @@ app.get('/form', (req, res) => {
     res.sendFile(path.join(__dirname, "views", "form.html"));
 });
 
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, "views", "login.html"));
-});
+
 
 app.post("/form", (req, res) => {
     let code = req.body.code || "";
@@ -54,16 +54,7 @@ app.post("/codeForm", (req, res) => {
     }
     res.status(401).json({ error: 'Невірний код. Спробуй ще!' });
 });
-app.post("/login", (req, res) => {
-    const { login, password } = req.body;
-    const correctLogin = 'admin';
-    const correctPassword = '12345';
-    if (login === correctLogin && password === correctPassword) {
-        res.json({ success: true, message: 'congrats u logged in' });
-    } else {
-        res.status(401).json({ success: false, message: "неправильний логін або пароль" });
-    };
-});
+
 
 app.get('/crash', (req, res) => {
     throw new Error('smth went wrong');
